@@ -1,0 +1,6 @@
+
+Uses MVC principle to abstract out the individual parts
+MVC
+	M:state.cpp, engine.cpp
+	V:render.cpp
+	C:controller.cpp
