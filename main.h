@@ -1,6 +1,6 @@
 
-#ifndef	MY_PVN_Main_HEAD
-#define	MY_PVN_Main_HEAD
+#ifndef MY_PVN_Main_HEAD
+#define MY_PVN_Main_HEAD
 
 #include <stdlib.h>
 #include <GL/glut.h>
