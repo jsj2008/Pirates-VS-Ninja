@@ -22,13 +22,13 @@ void game_engine::moveModel(game_model & m) {
 		m.move(MOVE_RIGHT);
 	}
 	if(flags & TURN_LEFT) {
-		m.rotate(5);
+		m.rotate(2.5f);
 	}
 	else if(flags & TURN_RIGHT) {
-		m.rotate(-5);
+		m.rotate(-2.5f);
 	}
 	
-	currentState.getPlayer().rotate(currentState.getMouseXMove());
+	currentState.getPlayer().rotate(-currentState.getMouseXMove());
 	currentState.clearMouseXMove();
 }
 	

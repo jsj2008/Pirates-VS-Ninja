@@ -11,6 +11,7 @@ game_state::game_state() {
 	mouseYPos = 0;
 	mouseXMove = 0;
 	mouseYMove = 0;
+	thirdPerson = tempCam.toggleThird();
 }
 
 game_state::game_state(game_state & other) {
@@ -104,4 +105,12 @@ void game_state::copyData(game_state & other) {
 	mouseYPos = other.mouseYPos;
 	mouseXMove = other.mouseXMove;
 	mouseYMove = other.mouseYMove;
+}
+
+void game_state::toggleThirdPerson() {
+    thirdPerson = !thirdPerson;
+}
+
+bool game_state::isThirdPerson() {
+    return thirdPerson;
 }

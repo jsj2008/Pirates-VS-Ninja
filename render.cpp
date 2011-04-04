@@ -11,8 +11,11 @@ void game_render::gameRender::init(void) {
 	glClearColor(.47451, .70980, .90588, 0);
 	glClearDepth(1);
 
+	//setup nicities
+	glShadeModel(GL_SMOOTH);
+	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+
 	// initialize viewing values
-	
 	glViewport(0,0,windowX,windowY);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();	
@@ -59,8 +62,11 @@ void game_render::display(void) {
 		//(*modelIter).debug();
 		renderModel(*modelIter);
 	}
-	renderModel(currentState.getPlayer());
-	//currentState.getPlayer().debug();
+	
+	if(currentState.isThirdPerson()) {
+	    renderModel(currentState.getPlayer());
+	    //currentState.getPlayer().debug();
+	}
 	
 	
 	glFlush();

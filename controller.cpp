@@ -115,6 +115,7 @@ void game_controller::keyboardSpecial(int key, int x, int y) {
 	switch(key) {
 		case 1:
 			currentState.getCamera().toggleThird();
+			currentState.toggleThirdPerson();
 			break;
 		case 100:
 			//currentState.getPlayer().rotate(5);
@@ -171,11 +172,12 @@ void game_controller::motion(int x, int y) {
 void game_controller::passiveMotion(int x, int y) {
 	//std::cout << "Passive motion: (" << x << ", " << y << ") \n";
 	
-	currentState.moveMouse(-x, y);
+	currentState.moveMouse(x, y);
 }
 
 void game_controller::mouseEntry(int state) {
 	if(state == GLUT_LEFT) {
+	    //std::cout << "Left!  Snapping to: (" << windowX / 2 << ", " << windowY / 2 << ") \n";
 		currentState.setMousePosition(windowX / 2, windowY / 2);
 		//currentState.mouseXPos = windowX / 2;
 		glutWarpPointer(windowX / 2, windowY / 2);

@@ -14,6 +14,7 @@ class game_state {
 		std::list<game_model> models;
 		game_camera tempCam;
 		//std::list<game_camera> cameras;
+		bool thirdPerson;
 		
 		//state data
 		int movementFlags;
@@ -43,6 +44,9 @@ class game_state {
 		void setMousePosition(int xPos, int yPos);
 		void clearMouseXMove();
 		void addModel(game_model & gm);
+		
+		void toggleThirdPerson();
+		bool isThirdPerson();
 	
 	private:
 		void copyData(game_state & other);
