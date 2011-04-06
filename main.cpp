@@ -27,7 +27,6 @@ int main(int argc, char** argv) {
     glutMouseFunc(game_controller::mouse);
     glutMotionFunc(game_controller::motion);
     glutPassiveMotionFunc(game_controller::passiveMotion);
-//    glutEntryFunc(game_controller::mouseEntry);
     
     glutKeyboardFunc(game_controller::keyboard);
     glutSpecialFunc(game_controller::keyboardSpecial);

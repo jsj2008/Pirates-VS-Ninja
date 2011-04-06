@@ -66,11 +66,13 @@ void game_state::setPlayer(game_model & m) {
 }
 
 void game_state::moveMouse(int x, int y) {
-    mouseXMove += (x - mouseXPos);
-    mouseXPos = x;
+    //mouseXMove += (x - mouseXPos);
+    mouseXMove += x;
+    //mouseXPos = x;
     
-    mouseYMove += (y - mouseYPos);
-    mouseYPos = y;
+    //mouseYMove += (y - mouseYPos);
+    mouseYMove += y;
+    //mouseYPos = y;
 }
 
 void game_state::setFlag(int flag) {

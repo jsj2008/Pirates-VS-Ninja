@@ -42,7 +42,7 @@ namespace game_controller {
     void mouse(int button, int state, int x, int y);
     void motion(int x, int y);
     void passiveMotion(int x, int y);
-    void mouseEntry(int state);
+    void snapBackToCenter();
 }
 
 #endif

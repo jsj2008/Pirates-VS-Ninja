@@ -171,16 +171,14 @@ void game_controller::motion(int x, int y) {
 
 void game_controller::passiveMotion(int x, int y) {
     if(x != windowX / 2 || y != windowY / 2) {
-        std::cout << "Passive motion: (" << x << ", " << y << ") \n";
-    
-        currentState.moveMouse(x, y);
+        //std::cout << "Passive motion: (" << x << ", " << y << ") \n";
+        currentState.moveMouse(x - windowX / 2, y - windowY / 2);
         snapBackToCenter();
     }
 }
 
 void game_controller::snapBackToCenter() {
     //std::cout << "Left!  Snapping to: (" << windowX / 2 << ", " << windowY / 2 << ") \n";
-    currentState.setMousePosition(windowX / 2, windowY / 2);
     glutWarpPointer(windowX / 2, windowY / 2);
     
 }
