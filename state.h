@@ -19,8 +19,6 @@ class game_state {
         //state data
         int movementFlags;
         long int timeClick;
-        int mouseXPos;
-        int mouseYPos;
         int mouseXMove;
         int mouseYMove;
     
@@ -41,7 +39,6 @@ class game_state {
         void moveMouse(int x, int y);
         void setFlag(int flag);
         void clearFlag(int flag);
-        void setMousePosition(int xPos, int yPos);
         void clearMouseXMove();
         void addModel(game_model & gm);
         

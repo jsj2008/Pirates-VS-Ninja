@@ -7,8 +7,6 @@ game_state::game_state() {
     tempCam.setTarget(&player);
     movementFlags = 0;
     timeClick = 0;
-    mouseXPos = 0;
-    mouseYPos = 0;
     mouseXMove = 0;
     mouseYMove = 0;
     thirdPerson = tempCam.toggleThird();
@@ -66,13 +64,8 @@ void game_state::setPlayer(game_model & m) {
 }
 
 void game_state::moveMouse(int x, int y) {
-    //mouseXMove += (x - mouseXPos);
     mouseXMove += x;
-    //mouseXPos = x;
-    
-    //mouseYMove += (y - mouseYPos);
     mouseYMove += y;
-    //mouseYPos = y;
 }
 
 void game_state::setFlag(int flag) {
@@ -83,10 +76,6 @@ void game_state::clearFlag(int flag) {
     movementFlags &= (~flag);
 }
 
-void game_state::setMousePosition(int xPos, int yPos) {
-    mouseXPos = xPos;
-    mouseYPos = yPos;
-}
 void game_state::clearMouseXMove() {
     mouseXMove = 0;
 }
@@ -103,8 +92,6 @@ void game_state::copyData(game_state & other) {
     //cameras = std::list<game_camera>(other.cameras);
     movementFlags = other.movementFlags;
     timeClick = other.timeClick;
-    mouseXPos = other.mouseXPos;
-    mouseYPos = other.mouseYPos;
     mouseXMove = other.mouseXMove;
     mouseYMove = other.mouseYMove;
 }
