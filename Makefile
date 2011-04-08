@@ -3,11 +3,11 @@
 CC=	g++ -g -Wall
 OBJS= obj/pvn.o obj/controller.o obj/engine.o obj/render.o obj/state.o \
 	obj/objParser.o obj/model.o obj/3dPt.o obj/3vec.o obj/textUtil.o \
-	obj/face.o obj/player.o obj/camera.o obj/BMPLoader.o
+	obj/face.o obj/player.o obj/camera.o obj/BMPLoader.o obj/physics.o
 
 LIBS= -lglut -lGLU -lGL -lXi -lXmu
 #deprecated?: -ljpeg
-INC= -I./
+INC= -I./ -I./bullet/src
 
 CCFLAGS= -c
 
@@ -16,7 +16,7 @@ all: pvn
 pvn: $(OBJS)
 	$(CC) $(LIBS) -o pvn $(OBJS)
 
-obj/pvn.o: main.cpp main.h obj/controller.o obj/engine.o obj/render.o obj/state.o obj/objParser.o obj/model.o obj/3dPt.o obj/3vec.o obj/textUtil.o obj/face.o obj/player.o obj/camera.o
+obj/pvn.o: main.cpp main.h obj/controller.o obj/engine.o obj/render.o obj/state.o obj/objParser.o obj/model.o obj/3dPt.o obj/3vec.o obj/textUtil.o obj/face.o obj/player.o obj/camera.o obj/physics.o
 	$(CC) $(CCFLAGS) $(INC) -o obj/pvn.o main.cpp
 
 obj/controller.o: controller.cpp controller.h obj/state.o obj/camera.o flags.h obj/engine.o obj/objParser.o obj/render.o
@@ -57,6 +57,9 @@ obj/camera.o: camera.cpp camera.h obj/3dPt.o obj/3vec.o flags.h obj/model.o
 
 obj/BMPLoader.o: BMPLoader.h BMPLoader.cpp
 	$(CC) $(CCFLAGS) $(INC) -o obj/BMPLoader.o BMPLoader.cpp
+
+obj/physics.o: physics.h physics.cpp
+	$(CC) $(CCFLAGS) $(INC) -o obj/physics.o physics.cpp
 
 clean:
 	rm -f obj/*.o
