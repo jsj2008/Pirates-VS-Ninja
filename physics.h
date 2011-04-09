@@ -18,7 +18,7 @@ class game_physics {
         btDiscreteDynamicsWorld*                dynamicsWorld;
         
 	    //Holds all the physics objects (so they can be cleaned up later)
-	    btAlignedObjectArray<btCollisionShape*> collisionShapes;
+        btAlignedObjectArray<btCollisionShape*> collisionShapes;
     
     public:
         game_physics();
@@ -40,7 +40,7 @@ class game_physics {
 
         //TODO - Create a function to create a dynamic object, and one for static, (one for kinematic?)
     
-    private:
+    protected:
 };
 
 //TODO - write a MotionState class for dynamic objects

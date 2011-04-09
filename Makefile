@@ -5,7 +5,7 @@ OBJS= obj/pvn.o obj/controller.o obj/engine.o obj/render.o obj/state.o \
 	obj/objParser.o obj/model.o obj/3dPt.o obj/3vec.o obj/textUtil.o \
 	obj/face.o obj/player.o obj/camera.o obj/BMPLoader.o obj/physics.o
 
-LIBS= -lglut -lGLU -lGL -lXi -lXmu
+LIBS= -Lbullet/lib -lglut -lGLU -lGL -lXi -lXmu -lBulletSoftBody -lBulletDynamics -lBulletCollision -lLinearMath -lMiniCL
 #deprecated?: -ljpeg
 INC= -I./ -I./bullet/src
 
@@ -14,7 +14,7 @@ CCFLAGS= -c
 all: pvn
 
 pvn: $(OBJS)
-	$(CC) $(LIBS) -o pvn $(OBJS)
+	$(CC) $(OBJS) -o pvn $(LIBS)
 
 obj/pvn.o: main.cpp main.h obj/controller.o obj/engine.o obj/render.o obj/state.o obj/objParser.o obj/model.o obj/3dPt.o obj/3vec.o obj/textUtil.o obj/face.o obj/player.o obj/camera.o obj/physics.o
 	$(CC) $(CCFLAGS) $(INC) -o obj/pvn.o main.cpp
