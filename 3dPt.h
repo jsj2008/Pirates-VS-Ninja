@@ -41,6 +41,7 @@ class f3dPt {
         //Other fun stuffs.  :D
         float dist(f3dPt & other);
         void move(float movex, float moveY, float moveZ);
+        void set(float newX, float newY, float newZ);
         
         //debug
         void debug();

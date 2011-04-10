@@ -15,6 +15,12 @@ game_state & game_controller::init() {
     newState.addModel(ground);
     //loadSkybox(newState);
     
+    // Add some boxes for debugging
+    game_model box0(f3vec(0, .3, 0), f3dPt(-.5, 0, 10.5), 0, 1.0);
+    newState.addModel(box0);
+    game_model box1(f3vec(0, .3, 0), f3dPt(0, 5, 10.5), 0, 1.0);
+    newState.addModel(box1);
+    
     currentState = newState;
     
     return currentState;

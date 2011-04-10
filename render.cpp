@@ -92,7 +92,7 @@ void game_render::renderModel(game_model & m) {
     glColor3f(col.X(), col.Y(), col.Z());
     glBindTexture(GL_TEXTURE_2D, m.getTexture());
 
-    //glPushMatrix();
+    glPushMatrix();
     
     glTranslatef(m.getPosition().X(), m.getPosition().Y(), m.getPosition().Z());
     glRotatef(m.getRotation(), 0.0, 1.0, 0.0);
@@ -111,12 +111,18 @@ void game_render::renderModel(game_model & m) {
         for(unsigned int j = 0; j < currFace.size(); ++j) {
             //Extract the current vertex from the vertex array based on the current point in the face
             //cout << "#vs: " << m.getVertices().size() << "  j: " << j << "  index: " << currFace.vAt(j) << endl;
-            f3dPt currVert = m.getVerts().at(currFace.vAt(j));
-            f3dPt currTex = m.getTexVerts().at(currFace.tAt(j));
+            
             f3dPt currNorm = m.getNormals().at(currFace.nAt(j));
-
             glNormal3f(currNorm.X(), currNorm.Y(), currNorm.Z());
-            glTexCoord2f(currTex.X(), currTex.Y());
+
+            if(m.getTexVerts().size() > 0)
+            {
+                f3dPt currTex = m.getTexVerts().at(currFace.tAt(j));
+                glTexCoord2f(currTex.X(), currTex.Y());
+            }
+
+
+            f3dPt currVert = m.getVerts().at(currFace.vAt(j));
             //cout << "Vertex: (" << currVert.X() << ", " << currVert.Y() << ", " << currVert.Z() << ")\n";
             glVertex3f(currVert.X(), currVert.Y(), currVert.Z());
         }
@@ -124,5 +130,5 @@ void game_render::renderModel(game_model & m) {
         glEnd();
     }
     
-    //glPopMatrix();
+    glPopMatrix();
 }

@@ -57,6 +57,7 @@ public:
     void move(f3vec & dir);
     void move(int dir);
     void move(float x, float y, float z);
+    void setPosition(float x, float y, float z);
     void rotate(double degrees);
     void setScale(float size);
     

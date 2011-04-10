@@ -5,8 +5,10 @@
     Based heavily on the HelloWorld app provided with Bullet
 */
 
-#include "btBulletDynamicsCommon.h"
 #include <stdio.h>
+
+#include "btBulletDynamicsCommon.h"
+#include "model.h"
 
 class game_physics {
     private:
@@ -34,9 +36,10 @@ class game_physics {
         //      and 3 to specify the origin
         //  Defaults to null to just stay at the origin and not rotate
         //
-        void addPlane(float * norm, float constant, float * transform = NULL, float mass = 0.0f);
-        void addSphere(float radius, float * transform = NULL, float mass = 0.0f);
-        void addBox(float * dimensions, float * transform = NULL, float mass = 0.0f);
+        void addPlane(float * norm, float constant, game_model * model = NULL, float * transform = NULL, float mass = 0.0f);
+        void addSphere(float radius, game_model * model = NULL, float * transform = NULL, float mass = 0.0f);
+        void addBox(float * dimensions, game_model * model = NULL, float * transform = NULL, float mass = 0.0f);
+        //void addCharacter();
 
         //TODO - Create a function to create a dynamic object, and one for static, (one for kinematic?)
     
@@ -44,6 +47,20 @@ class game_physics {
 };
 
 //TODO - write a MotionState class for dynamic objects
+class PeteMotionState : public btMotionState {
+    public:
+        PeteMotionState(const btTransform &initialpos, game_model * model);
+
+        virtual ~PeteMotionState();
+
+        virtual void getWorldTransform(btTransform &worldTrans) const;
+        virtual void setWorldTransform(const btTransform &worldTrans);
+
+    protected:
+        btTransform mPos1;
+        game_model * myModel;
+};
+
 //TODO - write a MotionState class for kinematic objects
 
 #endif

@@ -111,6 +111,10 @@ void game_model::move(float x, float y, float z) {
     position.move(x, y, z);
 }
 
+void game_model::setPosition(float x, float y, float z) {
+    position.set(x, y, z);
+}
+
 void game_model::rotate(double degrees) {
     y_rotation += degrees;
 }

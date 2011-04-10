@@ -111,6 +111,12 @@ void f3dPt::move(float moveX, float moveY, float moveZ) {
     z += moveZ;
 }
 
+void f3dPt::set(float newX, float newY, float newZ) {
+    x = newX;
+    y = newY;
+    z = newZ;
+}
+
 void f3dPt::debug() {
     cout << "(" << x << ", " << y << ", " << z << ", " << w << ")";
 }
