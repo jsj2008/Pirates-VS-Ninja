@@ -56,8 +56,8 @@ void game_render::display(void) {
     glLoadIdentity();
     //currentState.getCamera().debug();
     currentState.getCamera().draw();
-    list<game_model> * models = currentState.getModels();
-    list<game_model>::iterator modelIter;
+    list<game_model*> * models = currentState.getModels();
+    list<game_model*>::iterator modelIter;
     for(modelIter = models->begin(); modelIter != models->end(); modelIter++) {
         //(*modelIter).debug();
         renderModel(*modelIter);
@@ -87,22 +87,22 @@ void game_render::reshape(int x, int y) {
     glLoadIdentity();
 }
 
-void game_render::renderModel(game_model & m) {
-    f3vec col = m.getColor();
+void game_render::renderModel(game_model * m) {
+    f3vec col = m->getColor();
     glColor3f(col.X(), col.Y(), col.Z());
-    glBindTexture(GL_TEXTURE_2D, m.getTexture());
+    glBindTexture(GL_TEXTURE_2D, m->getTexture());
 
     glPushMatrix();
     
-    glTranslatef(m.getPosition().X(), m.getPosition().Y(), m.getPosition().Z());
-    glRotatef(m.getRotation(), 0.0, 1.0, 0.0);
-    //cout << "offset X: " << m.getOffset().X() << endl;
-    float scale = m.getScale();
+    glTranslatef(m->getPosition().X(), m->getPosition().Y(), m->getPosition().Z());
+    glRotatef(m->getRotation(), 0.0, 1.0, 0.0);
+    //cout << "offset X: " << m->getOffset().X() << endl;
+    float scale = m->getScale();
     glScalef(scale, scale, scale);
-    glTranslatef(m.getOffset().X(), m.getOffset().Y(), m.getOffset().Z());
+    glTranslatef(m->getOffset().X(), m->getOffset().Y(), m->getOffset().Z());
     
-    for(unsigned int i = 0; i < m.getFaces().size(); ++i) {
-        face currFace = m.getFaces().at(i);
+    for(unsigned int i = 0; i < m->getFaces().size(); ++i) {
+        face currFace = m->getFaces().at(i);
         
         //draw the face
         glBegin(GL_POLYGON);
@@ -110,19 +110,19 @@ void game_render::renderModel(game_model & m) {
         
         for(unsigned int j = 0; j < currFace.size(); ++j) {
             //Extract the current vertex from the vertex array based on the current point in the face
-            //cout << "#vs: " << m.getVertices().size() << "  j: " << j << "  index: " << currFace.vAt(j) << endl;
+            //cout << "#vs: " << m->getVertices().size() << "  j: " << j << "  index: " << currFace.vAt(j) << endl;
             
-            f3dPt currNorm = m.getNormals().at(currFace.nAt(j));
+            f3dPt currNorm = m->getNormals().at(currFace.nAt(j));
             glNormal3f(currNorm.X(), currNorm.Y(), currNorm.Z());
 
-            if(m.getTexVerts().size() > 0)
+            if(m->getTexVerts().size() > 0)
             {
-                f3dPt currTex = m.getTexVerts().at(currFace.tAt(j));
+                f3dPt currTex = m->getTexVerts().at(currFace.tAt(j));
                 glTexCoord2f(currTex.X(), currTex.Y());
             }
 
 
-            f3dPt currVert = m.getVerts().at(currFace.vAt(j));
+            f3dPt currVert = m->getVerts().at(currFace.vAt(j));
             //cout << "Vertex: (" << currVert.X() << ", " << currVert.Y() << ", " << currVert.Z() << ")\n";
             glVertex3f(currVert.X(), currVert.Y(), currVert.Z());
         }

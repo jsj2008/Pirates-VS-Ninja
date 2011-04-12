@@ -8,6 +8,8 @@ int main(int argc, char** argv) {
         
     //tempCam.setTarget(&(currentState.getPlayer()));
     
+    gPhysics.init();
+    
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
     glutInitWindowSize(windowX, windowY);

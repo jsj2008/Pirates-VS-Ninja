@@ -63,7 +63,7 @@ void game_physics::init() {
 
 void game_physics::update(double deltaTime) {
     //Make sure you have a good enough max ticks!  Prolly ten?
-    //dynamicsWorld->stepSimulation(1.f/60.f,10);
+    dynamicsWorld->stepSimulation(deltaTime, 10);
 }
 
 void game_physics::addPlane(float * norm, float constant, game_model * model, float * transform, float mass) {
@@ -114,7 +114,7 @@ void game_physics::addSphere(float radius, game_model * model, float * transform
 		tempShape->calculateLocalInertia(mass,localInertia);
 
 	//using motionstate is recommended, it provides interpolation capabilities, and only synchronizes 'active' objects
-	btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
+	btMotionState* myMotionState = new PeteMotionState((const btTransform)startTransform, model);
 	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, tempShape, localInertia);
 	btRigidBody* body = new btRigidBody(rbInfo);
 
@@ -141,7 +141,7 @@ void game_physics::addBox(float * dimensions, game_model * model, float * transf
 		tempShape->calculateLocalInertia(mass,localInertia);
 
 	//using motionstate is recommended, it provides interpolation capabilities, and only synchronizes 'active' objects
-	btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
+	btMotionState* myMotionState = new PeteMotionState((const btTransform)startTransform, model);
 	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, tempShape, localInertia);
 	btRigidBody* body = new btRigidBody(rbInfo);
 
@@ -167,7 +167,11 @@ void PeteMotionState::getWorldTransform(btTransform &worldTrans) const {
 void PeteMotionState::setWorldTransform(const btTransform &worldTrans) {
     //Act on the info given
     btVector3 pos = worldTrans.getOrigin();
-    myModel->setPosition(pos.x(), pos.y(), pos.z());
+    if(myModel)
+    {
+        myModel->setPosition(pos.x() - 5., pos.y() - .5, pos.z() - .5);
+        std::cout << "Updating physics model" << myModel << " to: " << pos.x() << ", " << pos.y() << ", " << pos.z() << "\n";
+    }
     
     //do rotation?
 }

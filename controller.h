@@ -15,6 +15,7 @@
 extern unsigned int windowX;
 extern unsigned int windowY;
 extern game_render::gameRender myRenderer;
+extern game_physics gPhysics;
 extern game_state currentState;
 extern game_camera tempCam;
 extern objParser objParse;

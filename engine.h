@@ -7,8 +7,10 @@
 #include "camera.h"
 #include "3dPt.h"
 #include "3vec.h"
+#include "physics.h"
 
 extern game_state currentState;
+extern game_physics gPhysics;
 
 namespace game_engine {
     //Methods to generate the appropriate next state from the given one.

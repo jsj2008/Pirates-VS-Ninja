@@ -4,7 +4,7 @@
 //Constructors
 
 game_state::game_state() {
-    tempCam.setTarget(&player);
+    tempCam.setTarget(player);
     movementFlags = 0;
     timeClick = 0;
     mouseXMove = 0;
@@ -25,7 +25,7 @@ game_state & game_state::operator=(game_state & other) {
 
 //Methods that read the state of this object
 
-game_model & game_state::getPlayer() {
+game_model * game_state::getPlayer() {
     return player;
 }
 
@@ -48,7 +48,7 @@ int game_state::getMouseXMove() {
     return mouseXMove;
 }
 
-std::list<game_model> * game_state::getModels() {
+std::list<game_model*> * game_state::getModels() {
     return &models;
 }
 
@@ -58,7 +58,7 @@ game_camera & game_state::getCamera() {
 
 //Methods that change the state of this object
 
-void game_state::setPlayer(game_model & m) {
+void game_state::setPlayer(game_model * m) {
     player = m;
     //tempCam.setTarget(&player);
 }
@@ -80,15 +80,15 @@ void game_state::clearMouseXMove() {
     mouseXMove = 0;
 }
 
-void game_state::addModel(game_model & gm) {
+void game_state::addModel(game_model * gm) {
     models.push_back(gm);
 }
 
 void game_state::copyData(game_state & other) {
     player = other.player;
-    models = std::list<game_model>(other.models);
+    models = std::list<game_model*>(other.models);
     tempCam = other.tempCam;
-    tempCam.setTarget(&player);
+    tempCam.setTarget(player);
     //cameras = std::list<game_camera>(other.cameras);
     movementFlags = other.movementFlags;
     timeClick = other.timeClick;

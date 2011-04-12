@@ -31,6 +31,7 @@ unsigned int windowY = INIT_WINDOW_SIZE_Y;
 objParser objParse;
 game_render::gameRender myRenderer;
 game_state currentState;
+game_physics gPhysics;
 
 #endif
 

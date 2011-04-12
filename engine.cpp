@@ -2,7 +2,9 @@
 #include "engine.h"
 
 void game_engine::nextState(double timeElapsed) {
-    moveModel(currentState.getPlayer());
+    gPhysics.update(timeElapsed);
+
+    moveModel(*currentState.getPlayer());
 }
     
 void game_engine::moveModel(game_model & m) {
@@ -28,7 +30,7 @@ void game_engine::moveModel(game_model & m) {
         m.rotate(-2.5f);
     }
     
-    currentState.getPlayer().rotate(-currentState.getMouseXMove());
+    currentState.getPlayer()->rotate(-currentState.getMouseXMove());
     currentState.clearMouseXMove();
 }
     
