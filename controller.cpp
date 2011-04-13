@@ -2,6 +2,7 @@
 #include "controller.h"
 //Only needed for debug
 #include <iostream>
+#include <cmath>
 #include "physics.h"
 
 game_state & game_controller::init() {
@@ -39,6 +40,22 @@ game_state & game_controller::init() {
     gPhysics.addBox(dims, box0, trans0, 1.0f);
     gPhysics.addBox(dims, box1, trans1, 1.0f);
     
+    // Add some dummies for debugging
+    game_model * body0 = new game_model(f3vec(.5, 0, 0), f3dPt(0, 0, 0), 0, .1);
+    objParse.parse("humanoid.obj", body0);
+    newState.addModel(body0);
+//    game_model * body1 = new game_model(f3vec(.5, 0, 0), f3dPt(0, 0, 0), 0, .1);
+//    objParse.parse("humanoid.obj", body1);
+//    newState.addModel(body1);
+    
+    //load the dummies into the physics world
+    float tran0[7] = {0, 0, 0, 1, 0, 20, 11};
+//    float tran1[7] = {0, 0, 0, 1, 5, 10, 11};
+//    float tran0[7] = {-sqrt(.5), 0, 0, sqrt(.5), 0, 3, 11};
+//    float tran1[7] = {-sqrt(.5), 0, 0, sqrt(.5), 1, 10, 11};
+    gPhysics.addModel(body0, tran0, 2.0f);
+//    gPhysics.addModel(body1, tran1, 2.0f);
+    
     currentState = newState;
     
     return currentState;
@@ -48,7 +65,7 @@ game_state & game_controller::initPlayer(game_state & current) {
     game_model * p = new game_model(f3vec(0, 0, 0), f3dPt(0, 10.931100, 0), 0, .1);
     objParse.parse("humanoid.obj", p);
     current.setPlayer(p);
-    p->setPhysics(gPhysics.addModel(p));
+    //p->setPhysics(gPhysics.addModel(p));
     return current;
 }
 

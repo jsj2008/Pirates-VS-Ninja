@@ -34,7 +34,7 @@ namespace game_render {
     
     void renderModel(game_model * m);
     
-    void applyQuat(float * q);
+    void applyQuat(game_model * m);
 }
 
 #endif

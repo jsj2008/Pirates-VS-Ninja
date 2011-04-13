@@ -36,14 +36,14 @@ game_model::game_model(f3vec col, f3dPt pos, double rot, float size) {
     normals = std::vector<f3dPt>(6);
     faces = std::vector<face>(12);
     
-    verts.at(0) = f3dPt(0, 0, 0);
-    verts.at(1) = f3dPt(0, 0, 1);    
-    verts.at(2) = f3dPt(0, 1, 0);
-    verts.at(3) = f3dPt(0, 1, 1);
-    verts.at(4) = f3dPt(1, 0, 0);
-    verts.at(5) = f3dPt(1, 0, 1);
-    verts.at(6) = f3dPt(1, 1, 0);
-    verts.at(7) = f3dPt(1, 1, 1);
+    verts.at(0) = f3dPt(-0.5, -0.5, -0.5);
+    verts.at(1) = f3dPt(-0.5, -0.5, .5);    
+    verts.at(2) = f3dPt(-0.5, 0.5, -0.5);
+    verts.at(3) = f3dPt(-0.5, 0.5, 0.5);
+    verts.at(4) = f3dPt(0.5, -0.5, -0.5);
+    verts.at(5) = f3dPt(0.5, -0.5, 0.5);
+    verts.at(6) = f3dPt(0.5, 0.5, -0.5);
+    verts.at(7) = f3dPt(0.5, 0.5, 0.5);
     
     texVerts.at(0) = f3dPt(0, 0, 0);
     texVerts.at(1) = f3dPt(0, 1, 0);    
@@ -102,7 +102,7 @@ void game_model::setTexture(unsigned int tex) {
 void game_model::move(f3vec & v) {
     position.move(v.X(), v.Y(), v.Z());
     
-    movePhysics();
+    //movePhysics();
 }
 
 void game_model::move(int dir) {
@@ -119,13 +119,13 @@ void game_model::move(int dir) {
         position.move(-cos(y_rotation * RAD) / 10, 0, sin(y_rotation * RAD) / 10);
     }
     
-    movePhysics();
+    //movePhysics();
 }
 
 void game_model::move(float x, float y, float z) {
     position.move(x, y, z);
     
-    movePhysics();
+    //movePhysics();
 }
 
 void game_model::setPosition(float x, float y, float z) {
@@ -246,8 +246,8 @@ void game_model::movePhysics() {
     if(physics) {
         btTransform trans;
         trans.setIdentity();
+        //trans.setRotation(btQuaternion(0, sin((y_rotation * RAD) / 2), 0, cos((y_rotation * RAD) / 2)));
         trans.setOrigin(btVector3(position.X() + offset.X(), position.Y() + offset.Y(), position.Z() + offset.Z()));
-        trans.setRotation(btQuaternion(0, sin((y_rotation * RAD) / 2), 0, cos((y_rotation * RAD) / 2)));
         ((PeteKineMotionState *)physics)->setKinematicPos(trans);
     }
 }

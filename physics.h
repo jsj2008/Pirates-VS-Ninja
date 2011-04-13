@@ -40,7 +40,7 @@ class game_physics {
         void addPlane(float * norm, float constant, game_model * model = NULL, float * transform = NULL, float mass = 0.0f);
         void addSphere(float radius, game_model * model = NULL, float * transform = NULL, float mass = 0.0f);
         void addBox(float * dimensions, game_model * model = NULL, float * transform = NULL, float mass = 0.0f);
-        btMotionState* addModel(game_model * model, float * transform = NULL);
+        btMotionState* addModel(game_model * model, float * transform = NULL, float mass = 0.0f);
 
         //TODO - Create a function to create a dynamic object, and one for static, (one for kinematic?)
     

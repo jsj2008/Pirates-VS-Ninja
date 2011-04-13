@@ -14,7 +14,7 @@ int main(int argc, char** argv) {
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
     glutInitWindowSize(windowX, windowY);
     //glutInitWindowPosition(150, 50);    //centers in 800 x 600
-    glutInitWindowPosition(500, 50);    //for the netbook
+    glutInitWindowPosition(50, 50);    //for the netbook
     glutCreateWindow("Pirates VS Ninja");
     myRenderer.init();
     game_controller::init();

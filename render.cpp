@@ -27,6 +27,16 @@ void game_render::gameRender::init(void) {
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     
+    //Set up lighting
+    glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	float diffuse_color[4] = {1.0f, 0.0f, 0.0f, 1.0f};
+	float ambient_color[4] = {0.1f, 0.1f, 0.1f, 1.0f};
+	float position[4]      = {0.0f,20.0f, 3.0f, 1.0f};
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse_color);
+	glLightfv(GL_LIGHT0, GL_AMBIENT, ambient_color);
+	glLightfv(GL_LIGHT0, GL_POSITION, position);
+    
     //Set default drawing color
     //glColor3f(1.0, 1.0, 1.0);
 }
@@ -99,7 +109,7 @@ void game_render::renderModel(game_model * m) {
     //cout << "Position: " << m->getPosition().X() << ", " << m->getPosition().Y() << ", " << m->getPosition().Z() << endl;
     glRotatef(m->getRotation(), 0.0, 1.0, 0.0);
     //cout << "offset X: " << m->getOffset().X() << endl;
-    applyQuat(m->getQuat());
+    applyQuat(m);
     float scale = m->getScale();
     glScalef(scale, scale, scale);
     glTranslatef(m->getOffset().X(), m->getOffset().Y(), m->getOffset().Z());
@@ -142,19 +152,18 @@ void game_render::renderModel(game_model * m) {
     glPopMatrix();
 }
 
-// Convert to Matrix
-// Stolen from: http://gpwiki.org/index.php/OpenGL:Tutorials:Using_Quaternions_to_represent_rotation
-void game_render::applyQuat(float * q) {
+void game_render::applyQuat(game_model * m) {
+    float * q = m->getQuat();
     btTransform transform;
     transform.setIdentity();
     btQuaternion rot(q[0], q[1], q[2], q[3]);
     transform.setRotation(rot);
+//    f3vec pos = m->getPosition();
+//    transform.setOrigin(btVector3(pos.X(), pos.Y(), pos.Z()));
 
 	float matx[16];
     transform.getOpenGLMatrix(matx);
 	
 	//Hack to get cubes to translate correctly.  Need to get the physics lined up with the render...
-	glTranslatef(.5, .5, .5);
 	glMultMatrixf(matx);
-	glTranslatef(-.5, -.5, -.5);
 }

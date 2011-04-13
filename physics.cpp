@@ -149,7 +149,7 @@ void game_physics::addBox(float * dimensions, game_model * model, float * transf
 	dynamicsWorld->addRigidBody(body);	
 }
 
-btMotionState* game_physics::addModel(game_model * model, float * transform) {
+btMotionState* game_physics::addModel(game_model * model, float * transform, float mass) {
     btCollisionShape* tempShape = new btConvexHullShape();
 	collisionShapes.push_back(tempShape);
 
@@ -167,11 +167,16 @@ btMotionState* game_physics::addModel(game_model * model, float * transform) {
 	    startTransform.setRotation(btQuaternion(btScalar(transform[0]), btScalar(transform[1]), btScalar(transform[2]), btScalar(transform[3])));
 	}
 
+	//rigidbody is dynamic if and only if mass is non zero, otherwise static
+	bool isDynamic = (mass != 0.f);
+
 	btVector3 localInertia(0,0,0);
+	if (isDynamic)
+		tempShape->calculateLocalInertia(mass,localInertia);
 
 	//using motionstate is recommended, it provides interpolation capabilities, and only synchronizes 'active' objects
-	btMotionState* myMotionState = new PeteKineMotionState((const btTransform)startTransform);
-	btRigidBody::btRigidBodyConstructionInfo rbInfo(0.0f, myMotionState, tempShape, localInertia);
+	btMotionState* myMotionState = new PeteMotionState((const btTransform)startTransform, model);
+	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, tempShape, localInertia);
 	btRigidBody* body = new btRigidBody(rbInfo);
 
 	dynamicsWorld->addRigidBody(body);
@@ -201,7 +206,7 @@ void PeteMotionState::setWorldTransform(const btTransform &worldTrans) {
     btQuaternion rot = worldTrans.getRotation();
     if(myModel)
     {
-        myModel->setPosition(pos.x() - 5., pos.y() - .5, pos.z() - .5);
+        myModel->setPosition(pos.x(), pos.y(), pos.z());
         //std::cout << "Updating physics model" << myModel << " to: " << pos.x() << ", " << pos.y() << ", " << pos.z() << "\n";
     
         //do rotation
@@ -226,8 +231,10 @@ void PeteKineMotionState::getWorldTransform(btTransform &worldTrans) const {
 
 void PeteKineMotionState::setKinematicPos(btTransform &currentPos) {
     mPos1 = currentPos;
+    //std::cout << "Set Kinematic Position\n";
 }
 
 void PeteKineMotionState::setWorldTransform(const btTransform &worldTrans) {
+    //std::cout << "I am ignoring this.\n";
 }
 
