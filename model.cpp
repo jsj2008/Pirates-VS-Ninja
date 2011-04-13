@@ -28,6 +28,7 @@ game_model::game_model(f3vec col, f3dPt pos, double rot, float size) {
     quat[1] = 0;
     quat[2] = 0;
     quat[3] = 1;
+    physics = 0;
     
     
     verts = std::vector<f3dPt>(8);
@@ -100,6 +101,8 @@ void game_model::setTexture(unsigned int tex) {
     
 void game_model::move(f3vec & v) {
     position.move(v.X(), v.Y(), v.Z());
+    
+    movePhysics();
 }
 
 void game_model::move(int dir) {
@@ -115,10 +118,14 @@ void game_model::move(int dir) {
     else if(dir == MOVE_RIGHT) {
         position.move(-cos(y_rotation * RAD) / 10, 0, sin(y_rotation * RAD) / 10);
     }
+    
+    movePhysics();
 }
 
 void game_model::move(float x, float y, float z) {
     position.move(x, y, z);
+    
+    movePhysics();
 }
 
 void game_model::setPosition(float x, float y, float z) {
@@ -230,8 +237,17 @@ void game_model::setQuat(float x, float y, float z, float w) {
     quat[3] = w;
 }
 
-
-
 float * game_model::getQuat() {
     return quat;
+}
+
+void game_model::movePhysics() {
+    //move the physics here
+    if(physics) {
+        btTransform trans;
+        trans.setIdentity();
+        trans.setOrigin(btVector3(position.X() + offset.X(), position.Y() + offset.Y(), position.Z() + offset.Z()));
+        trans.setRotation(btQuaternion(0, sin((y_rotation * RAD) / 2), 0, cos((y_rotation * RAD) / 2)));
+        ((PeteKineMotionState *)physics)->setKinematicPos(trans);
+    }
 }

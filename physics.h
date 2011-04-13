@@ -9,6 +9,7 @@
 
 #include "btBulletDynamicsCommon.h"
 #include "model.h"
+class game_model;
 
 class game_physics {
     private:
@@ -39,14 +40,14 @@ class game_physics {
         void addPlane(float * norm, float constant, game_model * model = NULL, float * transform = NULL, float mass = 0.0f);
         void addSphere(float radius, game_model * model = NULL, float * transform = NULL, float mass = 0.0f);
         void addBox(float * dimensions, game_model * model = NULL, float * transform = NULL, float mass = 0.0f);
-        //void addCharacter();
+        btMotionState* addModel(game_model * model, float * transform = NULL);
 
         //TODO - Create a function to create a dynamic object, and one for static, (one for kinematic?)
     
     protected:
 };
 
-//TODO - write a MotionState class for dynamic objects
+
 class PeteMotionState : public btMotionState {
     public:
         PeteMotionState(const btTransform &initialpos, game_model * model);
@@ -61,7 +62,20 @@ class PeteMotionState : public btMotionState {
         game_model * myModel;
 };
 
-//TODO - write a MotionState class for kinematic objects
+
+class PeteKineMotionState : public btMotionState {
+    public:
+        PeteKineMotionState(const btTransform &initialpos);
+
+        virtual ~ PeteKineMotionState();
+
+        virtual void getWorldTransform(btTransform &worldTrans) const;
+        void setKinematicPos(btTransform &currentPos);
+        virtual void setWorldTransform(const btTransform &worldTrans);
+
+    protected:
+        btTransform mPos1;
+};
 
 #endif
 

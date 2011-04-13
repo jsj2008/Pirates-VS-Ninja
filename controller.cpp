@@ -48,6 +48,7 @@ game_state & game_controller::initPlayer(game_state & current) {
     game_model * p = new game_model(f3vec(0, 0, 0), f3dPt(0, 10.931100, 0), 0, .1);
     objParse.parse("humanoid.obj", p);
     current.setPlayer(p);
+    p->setPhysics(gPhysics.addModel(p));
     return current;
 }
 

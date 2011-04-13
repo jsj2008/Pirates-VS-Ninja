@@ -10,6 +10,7 @@
 #include "flags.h"
 #include "BMPLoader.h"
 //#include "matrix.h"
+#include "physics.h"
 
 #define RAD 0.0174532925
 
@@ -30,8 +31,9 @@ protected:
     float scale;
     f3dPt offset;
     f3dPt position;
-    double y_rotation;    //only need to keep track of which way I'm facing
+    double y_rotation;    //old phase out?
     float * quat;
+    btMotionState * physics;
     
     
     //parent in the rendering tree
@@ -63,6 +65,8 @@ public:
     void setScale(float size);
     void setQuat(float * q);
     void setQuat(float x, float y, float z, float w);
+    void setPhysics(btMotionState * phys) { physics = phys; }
+    void movePhysics();
     
     //getters
     std::vector<f3dPt> & getVerts();

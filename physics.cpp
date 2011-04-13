@@ -1,5 +1,6 @@
 
 #include "physics.h"
+#include "model.h"
 
 game_physics::game_physics() {
     dynamicsWorld = 0;
@@ -148,6 +149,36 @@ void game_physics::addBox(float * dimensions, game_model * model, float * transf
 	dynamicsWorld->addRigidBody(body);	
 }
 
+btMotionState* game_physics::addModel(game_model * model, float * transform) {
+    btCollisionShape* tempShape = new btConvexHullShape();
+	collisionShapes.push_back(tempShape);
+
+    std::vector<f3dPt> verts = model->getVerts();
+    btVector3 v;
+    for(unsigned int i = 0; i < verts.size(); ++i) {
+        v = btVector3(verts.at(i).X(), verts.at(i).Y(), verts.at(i).Z());
+        ((btConvexHullShape*)tempShape)->addPoint(v);
+    }
+
+    btTransform startTransform;
+	startTransform.setIdentity();
+	if(transform) {
+	    startTransform.setOrigin(btVector3(btScalar(transform[4]), btScalar(transform[5]), btScalar(transform[6])));
+	    startTransform.setRotation(btQuaternion(btScalar(transform[0]), btScalar(transform[1]), btScalar(transform[2]), btScalar(transform[3])));
+	}
+
+	btVector3 localInertia(0,0,0);
+
+	//using motionstate is recommended, it provides interpolation capabilities, and only synchronizes 'active' objects
+	btMotionState* myMotionState = new PeteKineMotionState((const btTransform)startTransform);
+	btRigidBody::btRigidBodyConstructionInfo rbInfo(0.0f, myMotionState, tempShape, localInertia);
+	btRigidBody* body = new btRigidBody(rbInfo);
+
+	dynamicsWorld->addRigidBody(body);
+	
+	return myMotionState;
+}
+
 
 ////
 //  Dynamic MotionState
@@ -176,5 +207,27 @@ void PeteMotionState::setWorldTransform(const btTransform &worldTrans) {
         //do rotation
         myModel->setQuat(rot.x(), rot.y(), rot.z(), rot.w());
     }
+}
+
+
+////
+//  Kinematic MotionState
+///
+PeteKineMotionState::PeteKineMotionState(const btTransform &initialpos) {
+    mPos1 = initialpos;
+}
+
+PeteKineMotionState::~PeteKineMotionState() {
+}
+
+void PeteKineMotionState::getWorldTransform(btTransform &worldTrans) const {
+    worldTrans = mPos1;
+}
+
+void PeteKineMotionState::setKinematicPos(btTransform &currentPos) {
+    mPos1 = currentPos;
+}
+
+void PeteKineMotionState::setWorldTransform(const btTransform &worldTrans) {
 }
 
