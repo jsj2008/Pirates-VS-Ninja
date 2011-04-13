@@ -144,6 +144,9 @@ void game_controller::keyboard(unsigned char key, int x, int y) {
             currentState.clearFlag(MOVE_LEFT);
             //tempCam.move();
             break;
+        case ' ':
+            dropBox();
+            break;
         case 27:    //ESCAPE KEY
             exit(0);
         default:
@@ -223,5 +226,13 @@ void game_controller::snapBackToCenter() {
     //std::cout << "Left!  Snapping to: (" << windowX / 2 << ", " << windowY / 2 << ") \n";
     glutWarpPointer(windowX / 2, windowY / 2);
     
+}
+
+void game_controller::dropBox() {
+    game_model * box0 = new game_model(f3vec(0, .3, 1), f3dPt(0, 0, 0), 0, 1.0);
+    currentState.addModel(box0);
+    float dims[3] = {0.5f, 0.5f, 0.5f};
+    float trans0[7] = {0, 0, 0, 1, 0, 15, 11};
+    gPhysics.addBox(dims, box0, trans0, 1.0f);
 }
 

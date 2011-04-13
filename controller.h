@@ -34,6 +34,7 @@ namespace game_controller {
     //game stuff.  Very important and all that
     void idle();    //openGL Idle function: performs the main game loop
     int timePassed(time_t start);    //gives the time passed in milliseconds
+    void dropBox();
     
     //I/O handlers
     void keyboard(unsigned char key, int x, int y);
