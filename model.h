@@ -31,6 +31,7 @@ protected:
     f3dPt offset;
     f3dPt position;
     double y_rotation;    //only need to keep track of which way I'm facing
+    float * quat;
     
     
     //parent in the rendering tree
@@ -60,6 +61,8 @@ public:
     void setPosition(float x, float y, float z);
     void rotate(double degrees);
     void setScale(float size);
+    void setQuat(float * q);
+    void setQuat(float x, float y, float z, float w);
     
     //getters
     std::vector<f3dPt> & getVerts();
@@ -73,6 +76,7 @@ public:
     unsigned int getTexture();
     BMPClass & getTexHolder();
     float getScale();
+    float * getQuat();
     
     //debug
     void debug();

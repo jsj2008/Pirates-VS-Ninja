@@ -55,7 +55,7 @@ class PeteMotionState : public btMotionState {
 
         virtual void getWorldTransform(btTransform &worldTrans) const;
         virtual void setWorldTransform(const btTransform &worldTrans);
-
+        
     protected:
         btTransform mPos1;
         game_model * myModel;

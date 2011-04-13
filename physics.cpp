@@ -167,11 +167,14 @@ void PeteMotionState::getWorldTransform(btTransform &worldTrans) const {
 void PeteMotionState::setWorldTransform(const btTransform &worldTrans) {
     //Act on the info given
     btVector3 pos = worldTrans.getOrigin();
+    btQuaternion rot = worldTrans.getRotation();
     if(myModel)
     {
         myModel->setPosition(pos.x() - 5., pos.y() - .5, pos.z() - .5);
-        std::cout << "Updating physics model" << myModel << " to: " << pos.x() << ", " << pos.y() << ", " << pos.z() << "\n";
-    }
+        //std::cout << "Updating physics model" << myModel << " to: " << pos.x() << ", " << pos.y() << ", " << pos.z() << "\n";
     
-    //do rotation?
+        //do rotation
+        myModel->setQuat(rot.x(), rot.y(), rot.z(), rot.w());
+    }
 }
+

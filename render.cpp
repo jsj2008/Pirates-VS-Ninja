@@ -1,5 +1,6 @@
 
 #include "render.h"
+#include "btBulletDynamicsCommon.h"
 
 using namespace std;
 
@@ -95,11 +96,14 @@ void game_render::renderModel(game_model * m) {
     glPushMatrix();
     
     glTranslatef(m->getPosition().X(), m->getPosition().Y(), m->getPosition().Z());
+    //cout << "Position: " << m->getPosition().X() << ", " << m->getPosition().Y() << ", " << m->getPosition().Z() << endl;
     glRotatef(m->getRotation(), 0.0, 1.0, 0.0);
     //cout << "offset X: " << m->getOffset().X() << endl;
+    applyQuat(m->getQuat());
     float scale = m->getScale();
     glScalef(scale, scale, scale);
     glTranslatef(m->getOffset().X(), m->getOffset().Y(), m->getOffset().Z());
+    //cout << "Offset: " << m->getOffset().X() << ", " << m->getOffset().Y() << ", " << m->getOffset().Z() << endl;
     
     for(unsigned int i = 0; i < m->getFaces().size(); ++i) {
         face currFace = m->getFaces().at(i);
@@ -115,10 +119,15 @@ void game_render::renderModel(game_model * m) {
             f3dPt currNorm = m->getNormals().at(currFace.nAt(j));
             glNormal3f(currNorm.X(), currNorm.Y(), currNorm.Z());
 
-            if(m->getTexVerts().size() > 0)
+            if(m->getTexVerts().size() > 0 && m->getTexture())
             {
-                f3dPt currTex = m->getTexVerts().at(currFace.tAt(j));
-                glTexCoord2f(currTex.X(), currTex.Y());
+                //cout << "i, j: " << i << ", " << j << endl;
+                //if(currFace.tAt(j) > 0)
+                {
+                    f3dPt currTex = m->getTexVerts().at(currFace.tAt(j));
+                    //cout << "\tx,y: " << currTex.X() << ", " << currTex.Y() << endl;
+                    glTexCoord2f(currTex.X(), currTex.Y());
+                }
             }
 
 
@@ -131,4 +140,21 @@ void game_render::renderModel(game_model * m) {
     }
     
     glPopMatrix();
+}
+
+// Convert to Matrix
+// Stolen from: http://gpwiki.org/index.php/OpenGL:Tutorials:Using_Quaternions_to_represent_rotation
+void game_render::applyQuat(float * q) {
+    btTransform transform;
+    transform.setIdentity();
+    btQuaternion rot(q[0], q[1], q[2], q[3]);
+    transform.setRotation(rot);
+
+	float matx[16];
+    transform.getOpenGLMatrix(matx);
+	
+	//Hack to get cubes to translate correctly.  Need to get the physics lined up with the render...
+	glTranslatef(.5, .5, .5);
+	glMultMatrixf(matx);
+	glTranslatef(-.5, -.5, -.5);
 }

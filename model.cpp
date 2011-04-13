@@ -23,10 +23,15 @@ game_model::game_model(f3vec col, f3dPt pos, double rot, float size) {
     position = f3dPt(0, 0, 0);
     y_rotation = rot;
     scale = size;
+    quat = new float[4];
+    quat[0] = 0;
+    quat[1] = 0;
+    quat[2] = 0;
+    quat[3] = 1;
     
     
     verts = std::vector<f3dPt>(8);
-    texVerts = std::vector<f3dPt>();
+    texVerts = std::vector<f3dPt>(4);
     normals = std::vector<f3dPt>(6);
     faces = std::vector<face>(12);
     
@@ -39,6 +44,11 @@ game_model::game_model(f3vec col, f3dPt pos, double rot, float size) {
     verts.at(6) = f3dPt(1, 1, 0);
     verts.at(7) = f3dPt(1, 1, 1);
     
+    texVerts.at(0) = f3dPt(0, 0, 0);
+    texVerts.at(1) = f3dPt(0, 1, 0);    
+    texVerts.at(2) = f3dPt(1, 1, 0);
+    texVerts.at(3) = f3dPt(1, 0, 0);
+    
     normals.at(0) = f3dPt(0, 0, 1);
     normals.at(1) = f3dPt(0, 0, -1);
     normals.at(2) = f3dPt(0, 1, 0);
@@ -46,18 +56,18 @@ game_model::game_model(f3vec col, f3dPt pos, double rot, float size) {
     normals.at(4) = f3dPt(1, 0, 0);
     normals.at(5) = f3dPt(-1, 0, 0);
     
-    int face1[9] = {1,0,2, 7,0,2, 5,0,2};    faces.at(0) = face(face1, 3);
-    int face2[9] = {1,0,2, 3,0,2, 7,0,2};    faces.at(1) = face(face2, 3);
-    int face3[9] = {1,0,6, 4,0,6, 3,0,6};    faces.at(2) = face(face3, 3);
-    int face4[9] = {1,0,6, 2,0,6, 4,0,6};    faces.at(3) = face(face4, 3);
-    int face5[9] = {3,0,3, 8,0,3, 7,0,3};    faces.at(4) = face(face5, 3);
-    int face6[9] = {3,0,3, 4,0,3, 8,0,3};    faces.at(5) = face(face6, 3);
-    int face7[9] = {5,0,5, 7,0,5, 8,0,5};    faces.at(6) = face(face7, 3);
-    int face8[9] = {5,0,5, 8,0,5, 6,0,5};    faces.at(7) = face(face8, 3);
-    int face9[9] = {1,0,4, 5,0,4, 6,0,4};    faces.at(8) = face(face9, 3);
-    int face10[9] = {1,0,4, 6,0,4, 2,0,4};    faces.at(9) = face(face10, 3);
-    int face11[9] = {2,0,1, 8,0,1, 6,0,1};    faces.at(10) = face(face11, 3);
-    int face12[9] = {2,0,1, 8,0,1, 4,0,1};    faces.at(11) = face(face12, 3);
+    int face1[9] =  {1,1,2, 7,2,2, 5,3,2};    faces.at(0) = face(face1, 3);
+    int face2[9] =  {1,1,2, 3,3,2, 7,4,2};    faces.at(1) = face(face2, 3);
+    int face3[9] =  {1,1,6, 4,2,6, 3,3,6};    faces.at(2) = face(face3, 3);
+    int face4[9] =  {1,1,6, 2,3,6, 4,4,6};    faces.at(3) = face(face4, 3);
+    int face5[9] =  {3,1,3, 8,2,3, 7,3,3};    faces.at(4) = face(face5, 3);
+    int face6[9] =  {3,1,3, 4,3,3, 8,4,3};    faces.at(5) = face(face6, 3);
+    int face7[9] =  {5,1,5, 7,2,5, 8,3,5};    faces.at(6) = face(face7, 3);
+    int face8[9] =  {5,1,5, 8,3,5, 6,4,5};    faces.at(7) = face(face8, 3);
+    int face9[9] =  {1,1,4, 5,2,4, 6,3,4};    faces.at(8) = face(face9, 3);
+    int face10[9] = {1,1,4, 6,3,4, 2,4,4};    faces.at(9) = face(face10, 3);
+    int face11[9] = {2,1,1, 8,2,1, 6,3,1};    faces.at(10) = face(face11, 3);
+    int face12[9] = {2,1,1, 8,3,1, 4,4,1};    faces.at(11) = face(face12, 3);
 }
 
 game_model::game_model(const game_model & other) {
@@ -206,3 +216,22 @@ void game_model::copyData(const game_model & other) {
     scale = other.scale;
 }
 
+void game_model::setQuat(float * q) {
+    quat[0] = quat[0];
+    quat[1] = quat[1];
+    quat[2] = quat[2];
+    quat[3] = quat[3];
+}
+
+void game_model::setQuat(float x, float y, float z, float w) {
+    quat[0] = x;
+    quat[1] = y;
+    quat[2] = z;
+    quat[3] = w;
+}
+
+
+
+float * game_model::getQuat() {
+    return quat;
+}

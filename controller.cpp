@@ -18,13 +18,19 @@ game_state & game_controller::init() {
     float n[3] = {0.0f, 1.0f, 0.0f};
     gPhysics.addPlane(n, 0.0f);
     
-    //loadSkybox(newState);
+    loadSkybox(newState);
     
     // Add some boxes for debugging
-    game_model * box0 = new game_model(f3vec(0, .3, 0), f3dPt(-.5, 0, 10.5), 0, 1.0);
+    game_model * box0 = new game_model(f3vec(0, .3, 0), f3dPt(0, 0, 0), 0, 1.0);
     newState.addModel(box0);
-    game_model * box1 = new game_model(f3vec(0, .3, 0), f3dPt(0, 5, 10.5), 0, 1.0);
+    game_model * box1 = new game_model(f3vec(0, .3, 0), f3dPt(0, 0, 0), 0, 1.0);
     newState.addModel(box1);
+    
+    //Texture them
+    std::string str0("crate0.bmp");
+    myRenderer.bindTexture(str0, *box0);
+    std::string str1("crate2.bmp");
+    myRenderer.bindTexture(str1, *box1);
     
     //load the boxes into the physics world
     float dims[3] = {0.5f, 0.5f, 0.5f};
@@ -61,7 +67,7 @@ game_state & game_controller::loadSkybox(game_state & current) {
     unsigned int tex = c1->getTexture();
     
     game_model * c2 = new game_model(f3vec(.47451, .70980, .90588), f3dPt(0, 0, 0), 90, 1);
-    c2->move(0, 500, 0);
+    c2->move(500, 0, 0);
     objParse.parse("sky1.obj", c2);
     c2->setTexture(tex);
     current.addModel(c2);
@@ -73,7 +79,7 @@ game_state & game_controller::loadSkybox(game_state & current) {
     current.addModel(c3);
     
     game_model * c4 = new game_model(f3vec(.47451, .70980, .90588), f3dPt(0, 0, 0), 270, 1);
-    c4->move(0, -500, 0);
+    c4->move(-500, 0, 0);
     objParse.parse("sky1.obj", c4);
     c4->setTexture(tex);
     current.addModel(c4);

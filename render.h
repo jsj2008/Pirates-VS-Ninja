@@ -33,6 +33,8 @@ namespace game_render {
     void reshape(int x, int y);
     
     void renderModel(game_model * m);
+    
+    void applyQuat(float * q);
 }
 
 #endif
